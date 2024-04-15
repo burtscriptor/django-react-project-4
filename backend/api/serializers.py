@@ -2,7 +2,7 @@
 
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Note
+from .models import Climb, Session
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -17,8 +17,16 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
-class NoteSerializer(serializers.ModelSerializer):
+class ClimbSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Note
-        fields = ["id", "title", "content", "created_at", "author"]
-        extra_kwargs = {"author": {"read_only": True}}
+        model = Climb
+        fields = [
+           "lead", "sent", "rests", "grade", "style", 'project_send_attempt', 'comments']
+        extra_kwargs = {"climber": {"read_only": True}}
+
+class SessionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Session
+        fields = [
+           "created_at", "type", "comments",]
+        extra_kwargs = {"climber": {"read_only": True}}        

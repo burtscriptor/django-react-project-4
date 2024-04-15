@@ -2,18 +2,30 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-
-class Note(models.Model):                                       # entity name
-    title = models.CharField(max_length = 100)                  # entity attributes/ fields
-    content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notes') # allows usse to use .note and give access to all note attributes
-
-    def __str__(self):
-        return f'{self.title} by {self.author}'
-    
 class Session(models.Model):
-    type = models.CharField(max_length=1, choices=)   
+    created_at = models.DateTimeField()
+    type = models.CharField(max_length=20)
+    comments = models.CharField(max_length=200, 
+                                blank=True )   
+    
+    def __str__(self):
+        return f'{self.created_at} {self.comments} {self.type}'
 
 
-# Create your models here.
+class Climb(models.Model):       
+    climber = models.ForeignKey(User, on_delete=models.CASCADE)
+    lead = models.BooleanField(default=False)
+    project_send_attempt = models.BooleanField(default= False) 
+    sent = models.BooleanField(default= False)
+    rests = models.IntegerField()                              
+    grade = models.IntegerField()                
+    style = models.CharField(max_length=50)
+    comments = models.CharField(max_length=200, blank=True)
+   
+    
+    def __str__(self):
+        return f'{self.grade} {self.get_style_display()}' # by {self.session.climber}'
+    
+
+
+
