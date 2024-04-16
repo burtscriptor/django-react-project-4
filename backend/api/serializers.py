@@ -21,7 +21,7 @@ class ClimbSerializer(serializers.ModelSerializer):
     class Meta:
         model = Climb
         fields = [
-           "lead", "sent", "rests", "grade", "style", 'project_send_attempt', 'comments']
+           "sessionId","lead", "sent", "rests", "grade", "style", 'project_send_attempt', 'comments']
         extra_kwargs = {"climber": {"read_only": True}}
 
 class SessionSerializer(serializers.ModelSerializer):

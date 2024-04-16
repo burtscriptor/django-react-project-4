@@ -4,13 +4,16 @@ import Climb from '../components/Climb'
 import "../styles/Home.css"
 
 function Home() {
+    const [sessionId, setSessionId ] =useState(null)
+    const [sessions, setSessions] = useState([])
+
     const [session, setSession] = useState({
-        created: new Date(),
         type: "Fun",
         comments: "",
     });
     const [climbs, setClimbs] = useState([]);
     const [climb, setClimb] = useState({
+        sessionId: 0,
         projectSendAttempt: false,
         sent: false,
         rests: 0,
@@ -35,34 +38,68 @@ function Home() {
         ['S','Slab'],
     ]
 
-    const handleChange =(event) => {
-        const { name, value, type, checked } = event.target;
-        const val = type === 'checkbox' ? event.target.checked : event.target.value;
-        setClimb({ ...climb, [name]: val });
-    }
+    useEffect(() => {
+        getClimbs();
+        getSession();
+    }, []);
+    
 
-    const handleChangeSession = (event) => {
-        const { name, value, type, checked } = event.target;
-        setSession({...climb, [name]: value });
-        console.log(session)
-    }
+   
 
+    const getSession = () => {
+        api
+            .get("api/session/")
+            .then((res) => res.data)
+            .then((data)=> {
+                setSessions(data)
+                console.log('sessonS', sessions)
+            });
+    };
+    const createSessionId = () => {
+        if (!session && !session.sessionId ) {
+            setSessionId(0)
+        }else{
+            const id = sessions.length + 1
+            setSessionId(id)
+        };
+    };
     const createSession = (event) => {
-        console.log(session)
+        console.log('createSession', session)
         event.preventDefault()
         api
             .post('/api/session/', { ...session }) 
             .then((res) => {
                 if (res.status === 201) alert('Session created!');
                 else alert('Failed to make session.');
-            })
+            });
+    };
+    const handleChangeSession = (event) => {
+        const { name, value, type, checked } = event.target;
+        setSession({...session, [name]: value });
+        console.log(session)
     }
-
+    /////////////////////////////////////////////////////////////////////////////////
+    const getClimbs = () => {
+        api
+            .get("/api/climbs/")
+            .then((res) => res.data)
+            .then((data) => {
+                setClimbs(data);
+                console.log(data);
+            })
+            .catch((err) => alert(err));
+    };
+    const handleChange =(event) => {
+        const { name, value, type, checked } = event.target;
+        const val = type === 'checkbox' ? event.target.checked : event.target.value;
+        setClimb({ ...climb, [name]: val, sessionId: sessionId });
+    };
     const createClimb = (event) => {
-        console.log(climb)
+        console.log('sessionId',sessionId)
+        console.log('climb',climb)
         event.preventDefault();
         api
-            .post("/api/notes/", { ...climb }) 
+            .post("/api/climbs/", { ...climb }) 
             .then((res) => {
                 if (res.status === 201) alert("Climb created!");
                 else alert("Failed to make climb.");
@@ -71,20 +108,9 @@ function Home() {
             .catch((err) => alert(err));
     };
 
-    useEffect(() => {
-        getClimbs();
-    }, []);
+    
 
-    const getClimbs = () => {
-        api
-            .get("/api/notes/")
-            .then((res) => res.data)
-            .then((data) => {
-                setClimbs(data);
-                console.log(data);
-            })
-            .catch((err) => alert(err));
-    };
+   
 
     const deleteNote = (id) => {
         api
@@ -131,6 +157,7 @@ function Home() {
                 <input type='submit' value='submit session'/>
             </form>
             
+
             <form id='climb' onSubmit={createClimb}>
                 <h3>Climb</h3>
                 <label htmlFor="grade">Grade:</label>
@@ -149,7 +176,6 @@ function Home() {
                     type="checkbox"
                     id="goal"
                     name="goal"
-                    required
                     onChange={handleChange}// setClimb(e.target.value) to handleChange 
                     value={climb.goal}
                 />
@@ -159,9 +185,17 @@ function Home() {
                     type="checkbox"
                     id="lead"
                     name="lead"
-                    required
                     onChange={handleChange}// setClimb(e.target.value) to handleChange 
                     value={climb.lead}
+                />
+                <label htmlFor="sent">Sent?</label>
+                <br />
+                <input 
+                    type="checkbox"
+                    id="sent"
+                    name="sent"
+                    value={climb.sent}
+                    onChange={handleChange}// handlechange
                 />
                 <label htmlFor="style">Style:</label>
                 <br />
@@ -182,25 +216,15 @@ function Home() {
             </select>
                 <br />
                 <br />
-                <label htmlFor="sent">Sent?</label>
-                <br />
-                <input 
-                    type="checkbox"
-                    id="sent"
-                    name="sent"
-                    required
-                    value={climb.sent}
-                    onChange={handleChange}// handlechange
-                />
                 <label htmlFor="laps">Rests:</label>
                 <br />
                 <input
                     type="number"
-                    id="laps"
-                    name="laps"
+                    id="rests"
+                    name="rests"
                     required
                     onChange={handleChange}// handleChange
-                    value={climb.laps}
+                    value={climb.rests}
                 />  
             <br/>
             <br/>

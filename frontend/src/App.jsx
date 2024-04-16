@@ -1,4 +1,5 @@
 import React from "react"
+import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
@@ -6,6 +7,9 @@ import Home from "./pages/Home"
 import NotFound from "./pages/NotFound"
 import ProtectedRoute from "./components/ProtectedRoute"
 import Session from './pages/Session'
+import Navigation from './components/Navigation'
+import DashboardPage from "./pages/DashboardPage"
+import InspirationPage from "./pages/Inspiration"
 
 function Logout() {
   localStorage.clear()
@@ -18,13 +22,24 @@ function RegisterAndLogout() {
 }
 
 function App() {
+  const [isAuthorized, setIsAuthorized] = useState(null);
+
   return (
+    <>
+   {isAuthorized ? <Navigation /> : null }
     <BrowserRouter>
       <Routes>
+      <Route path='/dashboard'
+               element={
+               <ProtectedRoute isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized}>
+              <DashboardPage />
+            </ProtectedRoute> 
+          }
+        /> 
         <Route
           path="/"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized}>
               <Home />
             </ProtectedRoute>
           }
@@ -32,18 +47,25 @@ function App() {
         <Route 
           path='/session' 
             element={
-              <ProtectedRoute>
+              <ProtectedRoute isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized}>
                 <Session /> 
               </ProtectedRoute>
             }
           />
+          <Route 
+            path='/inspiration'
+            element={<ProtectedRoute isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized}>
+              <InspirationPage />
+            </ProtectedRoute> }
+            />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<RegisterAndLogout />} />
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </BrowserRouter>
-  )
-}
+    </>
+  );
+};
 
 export default App;

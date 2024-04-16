@@ -12,11 +12,11 @@ class SessionListCreate(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return Session.objects.filter(climber=user)
+        return Session.objects.filter(user=user)
 
     def perform_create(self, serializer):
         if serializer.is_valid():
-            serializer.save(climber=self.request.user)
+            serializer.save(user=self.request.user)
         else:
             print(serializer.errors)
             raise serializer.errors
