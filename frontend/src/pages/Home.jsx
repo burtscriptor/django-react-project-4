@@ -8,6 +8,7 @@ function Home() {
     const [sessions, setSessions] = useState([])
 
     const [session, setSession] = useState({
+        sessionId: "",
         type: "Fun",
         comments: "",
     });
@@ -40,43 +41,42 @@ function Home() {
 
     useEffect(() => {
         getClimbs();
-        getSession();
+        getSessions();
     }, []);
     
 
-   
 
-    const getSession = () => {
+    const getSessions = () => {
         api
             .get("api/session/")
             .then((res) => res.data)
             .then((data)=> {
+                data.reverse()
                 setSessions(data)
-                console.log('sessonS', sessions)
+                setSessionId(data[0].id)
+                console.log('sessonS', data)
             });
     };
-    const createSessionId = () => {
-        if (!session && !session.sessionId ) {
-            setSessionId(0)
-        }else{
-            const id = sessions.length + 1
-            setSessionId(id)
-        };
-    };
+
+    
+    
     const createSession = (event) => {
-        console.log('createSession', session)
+       console.log('from Cs', session)
         event.preventDefault()
         api
             .post('/api/session/', { ...session }) 
             .then((res) => {
                 if (res.status === 201) alert('Session created!');
                 else alert('Failed to make session.');
+                getSessions();
             });
+           
     };
     const handleChangeSession = (event) => {
+    
         const { name, value, type, checked } = event.target;
-        setSession({...session, [name]: value });
-        console.log(session)
+        setSession({...session, [name]: value});
+        
     }
     /////////////////////////////////////////////////////////////////////////////////
     const getClimbs = () => {
@@ -85,21 +85,21 @@ function Home() {
             .then((res) => res.data)
             .then((data) => {
                 setClimbs(data);
-                console.log(data);
+                console.log('from getclimbs',data);
             })
             .catch((err) => alert(err));
     };
     const handleChange =(event) => {
         const { name, value, type, checked } = event.target;
         const val = type === 'checkbox' ? event.target.checked : event.target.value;
-        setClimb({ ...climb, [name]: val, sessionId: sessionId });
+        setClimb({ ...climb, [name]: val });
     };
     const createClimb = (event) => {
         console.log('sessionId',sessionId)
         console.log('climb',climb)
         event.preventDefault();
         api
-            .post("/api/climbs/", { ...climb }) 
+            .post("/api/climbs/", { ...climb, session: sessionId }) 
             .then((res) => {
                 if (res.status === 201) alert("Climb created!");
                 else alert("Failed to make climb.");
@@ -160,6 +160,10 @@ function Home() {
 
             <form id='climb' onSubmit={createClimb}>
                 <h3>Climb</h3>
+                <label htmlFor="session">Session</label>
+                {/* <select onChange={(e) => setSessionId(e.target.value)}>
+                    {sessions.map((session) => <option value={session.id} >{session.created_at}</option>)}
+                </select> */}
                 <label htmlFor="grade">Grade:</label>
                 <br />
                 <input

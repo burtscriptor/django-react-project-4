@@ -21,12 +21,16 @@ class ClimbSerializer(serializers.ModelSerializer):
     class Meta:
         model = Climb
         fields = [
-           "sessionId","lead", "sent", "rests", "grade", "style", 'project_send_attempt', 'comments']
+           "session","lead", "sent", "rests", "grade", "style", 'project_send_attempt', 'comments']
         extra_kwargs = {"climber": {"read_only": True}}
 
 class SessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Session
         fields = [
-           "created_at", "type", "comments",]
+           "created_at", "type", "comments","user", "id", "user"]
+        depth=1
         extra_kwargs = {"climber": {"read_only": True}}        
+
+        def display_data(self, validated_data):
+            print (self,validated_data)

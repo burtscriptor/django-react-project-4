@@ -13,8 +13,8 @@ return (
     <>
     <div>
         <h4>This a session</h4>
-            <p>{session.user}</p>
-            <p>{session.sessionId} {session.created_at} {session.type} </p>
+            <p>{session.user.username}</p>
+            <p>{session.id} Session time {session.created_at} this is type {session.type} </p>
             <p>{session.comments}</p> 
     </div>
     </>

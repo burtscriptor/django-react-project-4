@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class Session(models.Model):
-    sessionId = models.IntegerField(default=0)
+    
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     type = models.CharField(max_length=20)
@@ -11,11 +11,11 @@ class Session(models.Model):
                                 blank=True )   
     
     def __str__(self):
-        return f'{self.created_at} {self.comments} {self.type} {self.sessionId}'
+        return f'{self.created_at} {self.comments} {self.type} {self.id}'
 
 
 class Climb(models.Model): 
-    sessionId = models.IntegerField()      
+    session = models.ForeignKey(Session, on_delete=models.CASCADE)      
     climber = models.ForeignKey(User, on_delete=models.CASCADE)
     lead = models.BooleanField(default=False)
     project_send_attempt = models.BooleanField(default= False) 
@@ -28,7 +28,7 @@ class Climb(models.Model):
    
     
     def __str__(self):
-        return f'{self.climber.username} - {self.grade} {self.sessionId }'
+        return f'{self.climber.username} - {self.grade}'
 
     
 
