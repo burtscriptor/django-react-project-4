@@ -1,11 +1,11 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import Sessions from './Sessions'
+import SessionsIndex from './SessionsIndex'
 
 const Dashboard = () => {
     return (
-        <div>Dashboard compontent coming sooon
-            <Sessions />
+        <div><h1>Welcome to the Dashboard</h1>
+            <SessionsIndex />
         </div>
     );
 

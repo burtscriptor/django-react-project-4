@@ -3,13 +3,14 @@ import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
-import Home from "./pages/Home"
 import NotFound from "./pages/NotFound"
 import ProtectedRoute from "./components/ProtectedRoute"
-import Session from './pages/Session'
 import Navigation from './components/Navigation'
 import DashboardPage from "./pages/DashboardPage"
 import InspirationPage from "./pages/Inspiration"
+import CreateSessionAndClimbs from "./pages/CreateSessionAndClimbs"
+import SessionsIndex from "./components/SessionsIndex"
+import SessionDetails from "./components/SessionDetails"
 
 function Logout() {
   localStorage.clear()
@@ -40,7 +41,7 @@ function App() {
           path="/"
           element={
             <ProtectedRoute isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized}>
-              <Home />
+              <CreateSessionAndClimbs />
             </ProtectedRoute>
           }
         />
@@ -48,7 +49,7 @@ function App() {
           path='/session' 
             element={
               <ProtectedRoute isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized}>
-                <Session /> 
+                <SessionsIndex /> 
               </ProtectedRoute>
             }
           />
@@ -56,8 +57,16 @@ function App() {
             path='/inspiration'
             element={<ProtectedRoute isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized}>
               <InspirationPage />
-            </ProtectedRoute> }
+            </ProtectedRoute> 
+            }
             />
+          <Route 
+            path='/:id'
+            element={<ProtectedRoute isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized}>
+              <SessionDetails />
+              </ProtectedRoute> 
+              }
+              />  
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<RegisterAndLogout />} />

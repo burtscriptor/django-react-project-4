@@ -19,7 +19,7 @@ const Navigation = () => {
                    <Nav.Link href='/dashboard'>Dashboard</Nav.Link> 
                 </Nav>
                 <Nav className='me-auto'>
-                   <Nav.Link href='/'>Session</Nav.Link> 
+                   <Nav.Link href='/'>Start Session</Nav.Link> 
                 </Nav>
                 <Nav className='me-auto'>
                     <Nav.Link href='/inspiration'>Inspiration</Nav.Link>
@@ -27,6 +27,7 @@ const Navigation = () => {
                 <Nav>
                    <Nav.Link href='/logout'>Logout</Nav.Link>  
                 </Nav>
+                
                
             </Navbar>
         </div>

@@ -3,16 +3,15 @@ import api from "../api";
 import Climb from '../components/Climb'
 import "../styles/Home.css"
 
-function Home() {
+function CreateSessionAndClimbs() {
     const [sessionId, setSessionId ] =useState(null)
     const [sessions, setSessions] = useState([])
-
     const [session, setSession] = useState({
         sessionId: "",
         type: "Fun",
         comments: "",
     });
-    const [climbs, setClimbs] = useState([]);
+   
     const [climb, setClimb] = useState({
         sessionId: 0,
         projectSendAttempt: false,
@@ -25,26 +24,24 @@ function Home() {
     });
 
     const SESSION_TYPE = [ // may need to change back to array
-        ['P', 'Project'],
-        ['E', 'Endurance'],
-        ['S', 'Skills'],
-        ['L', 'Lead'],
-        ['F', 'Fun']
+        ['Project','Project'],
+        ['Endurance','Endurance'],
+        ['Skills','Skills'],
+        ['Lead','Lead'],
+        ['Fun','Fun']
     ]
 
     const STYLE = [ // may need to change back to array
-        ['V', 'Vertical'],
-        ['O','Overhang'],
-        ['R','Roof'],
-        ['S','Slab'],
+        ['Vertical', 'Vertical'],
+        ['Overhang','Overhang'],
+        ['Roof','Roof'],
+        ['Slab','Slab'],
     ]
 
     useEffect(() => {
-        getClimbs();
         getSessions();
     }, []);
     
-
 
     const getSessions = () => {
         api
@@ -59,7 +56,6 @@ function Home() {
     };
 
     
-    
     const createSession = (event) => {
        console.log('from Cs', session)
         event.preventDefault()
@@ -73,22 +69,14 @@ function Home() {
            
     };
     const handleChangeSession = (event) => {
-    
         const { name, value, type, checked } = event.target;
         setSession({...session, [name]: value});
         
     }
     /////////////////////////////////////////////////////////////////////////////////
-    const getClimbs = () => {
-        api
-            .get("/api/climbs/")
-            .then((res) => res.data)
-            .then((data) => {
-                setClimbs(data);
-                console.log('from getclimbs',data);
-            })
-            .catch((err) => alert(err));
-    };
+    
+
+
     const handleChange =(event) => {
         const { name, value, type, checked } = event.target;
         const val = type === 'checkbox' ? event.target.checked : event.target.value;
@@ -103,31 +91,18 @@ function Home() {
             .then((res) => {
                 if (res.status === 201) alert("Climb created!");
                 else alert("Failed to make climb.");
-                getClimbs();
             })
             .catch((err) => alert(err));
     };
 
-    
 
-   
-
-    const deleteNote = (id) => {
-        api
-            .delete(`/api/notes/delete/${id}/`)
-            .then((res) => {
-                if (res.status === 204) alert("Note deleted!");
-                else alert("Failed to delete note.");
-                getClimbs();
-            })
-            .catch((error) => alert(error));
-    };
 
 
     return (
         <div>
             
-            <h2>Session</h2>
+            <h2>Start Session</h2>
+            <p>Select 'Session type' and add comments for example "Want to tick project today!"</p>
             <form id='session' onSubmit={createSession}> 
             <select
                     id="type"
@@ -154,13 +129,15 @@ function Home() {
                     onChange={handleChangeSession}
                     value={session.comments}
                 />
-                <input type='submit' value='submit session'/>
+                <p>Submit Session and start recording and submitting your climbs as you go!</p>
+                <input type='submit' value='Submit Session'/>
+                
             </form>
             
 
             <form id='climb' onSubmit={createClimb}>
                 <h3>Climb</h3>
-                <label htmlFor="session">Session</label>
+                <label htmlFor="session"></label>
                 {/* <select onChange={(e) => setSessionId(e.target.value)}>
                     {sessions.map((session) => <option value={session.id} >{session.created_at}</option>)}
                 </select> */}
@@ -245,14 +222,9 @@ function Home() {
                 <br />
                 <input type="submit" value="Submit"/>
             </form>
-            <div>
-                <h2>Climbs</h2>
-                {climbs.map((climb) => (
-                    <Climb climb={climb} onDelete={deleteNote} key={climb.id} /> // climb
-                ))}
-            </div>
+            
         </div>
     );
 }
 
-export default Home;
+export default CreateSessionAndClimbs;

@@ -28,6 +28,17 @@ class SessionListCreate(generics.ListCreateAPIView):
             raise serializer.errors
 
 
+class SessionDetailsList(generics.ListCreateAPIView):
+    serializer_class = ClimbSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        sessionId = self.kwargs.get('id')
+        return Climb.objects.filter(session=sessionId)
+    
+
+
+
 class ClimbListCreate(generics.ListCreateAPIView):
     serializer_class = ClimbSerializer
     permission_classes = [IsAuthenticated]
