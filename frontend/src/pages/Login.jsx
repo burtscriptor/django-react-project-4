@@ -1,7 +1,7 @@
 import Form from "../components/Form"
 
-function Login() {
-    return <Form route="/api/token/" method="login" />
+function Login({ setUserName }) {
+    return <Form route="/api/token/" method="login" setUserName={setUserName} />
 }
 
 export default Login

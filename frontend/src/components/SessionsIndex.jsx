@@ -8,24 +8,8 @@ import { Link } from 'react-router-dom';
 // Number of sessions via type
 // Average number of climbs per session - fat models thin controllers
 
-const SessionsIndex = () => {
-    const [sessions, setSessions] = useState([])
-
-    useEffect(() => {
-        console.log('useeffect')
-        const getSessions = async () => {
-            api
-                .get("api/session/")
-                .then((res) => res.data)
-                .then((data)=> {
-                    setSessions(data)
-                    console.log('sessonS', sessions)
-                })
-    
-        }
-        getSessions();
-    }, [])
-
+const SessionsIndex = ({ sessions }) => {
+   
 return (
     <>
     {sessions.map((session, index) =>

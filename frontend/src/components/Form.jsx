@@ -6,7 +6,7 @@ import "../styles/Form.css"
 import LoadingIndicator from "./LoadingIndicator";
 import { Link } from 'react-router-dom';
 
-function Form({ route, method }) {
+function Form({ route, method, setUserName }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
@@ -15,6 +15,7 @@ function Form({ route, method }) {
     const name = method === "login" ? "Login" : "Register";
 
     const handleSubmit = async (e) => {
+        setUserName(username)
         setLoading(true);
         e.preventDefault();
 

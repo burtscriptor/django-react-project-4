@@ -24,6 +24,7 @@ function RegisterAndLogout() {
 
 function App() {
   const [isAuthorized, setIsAuthorized] = useState(null);
+  const [userName, setUserName] = useState(null)
 
   return (
     <>
@@ -33,7 +34,7 @@ function App() {
       <Route path='/dashboard'
                element={
                <ProtectedRoute isAuthorized={isAuthorized} setIsAuthorized={setIsAuthorized}>
-              <DashboardPage />
+              <DashboardPage userName={userName} />
             </ProtectedRoute> 
           }
         /> 
@@ -67,7 +68,7 @@ function App() {
               </ProtectedRoute> 
               }
               />  
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login setUserName={setUserName} />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<RegisterAndLogout />} />
         <Route path="*" element={<NotFound />}></Route>

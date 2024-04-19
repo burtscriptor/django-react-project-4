@@ -2,10 +2,11 @@ import React from 'react'
 import Dashboard from '../components/Dashboard'
 
 
-const DashboardPage = () => {
+
+const DashboardPage = ({ userName }) => {
     return (
         <>
-        <Dashboard />
+        <Dashboard userName={userName} />
         </>
     );
 };

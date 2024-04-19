@@ -37,6 +37,7 @@ useEffect(() => {
                setSent(sent);
                setProjects(project);
                setGrade(grades);
+               console.log('FSA',favouriteStyleArray)
                setFavouriteStyle(favouriteStyleArray);
                setLead(lead);
             });
