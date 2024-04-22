@@ -2,28 +2,37 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import api from '../api'
 import { Link } from 'react-router-dom';
+import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
-// Todo key information to display at the top
-// Total number of sessions
-// Number of sessions via type
-// Average number of climbs per session - fat models thin controllers
 
 const SessionsIndex = ({ sessions }) => {
    
 return (
     <>
+    <Row xs={1} md={2} className="g-4">
     {sessions.map((session, index) =>
+    <Col key={index}>
         <Link to={`/${session.id}`} key={session.id}>
-            <div id={session.id}>
-                <h4>Session {index + 1} - click anywhere to see climbs on this session</h4>
-        <ul>
+            <Card>
+                <Card.Body>
+                    <Card.Title>Session {index + 1} - click anywhere to see climbs on this session</Card.Title>
+                        <Card.Text>
+                        <ul>
         <li>Session on {session.created_at}</li>
         <li>Type {session.type}</li>
         <li>Comments: {session.comments}</li> 
         </ul>
-            </div>
+
+                        </Card.Text>
+            </Card.Body>
+            </Card>   
         </Link>
+        </Col>
+       
     )}
+     </Row>
     </>
     
 );

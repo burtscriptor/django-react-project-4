@@ -12,6 +12,8 @@ import CreateSessionAndClimbs from "./pages/CreateSessionAndClimbs"
 import SessionsIndex from "./components/SessionsIndex"
 import SessionDetails from "./components/SessionDetails"
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 function Logout() {
   localStorage.clear()
   return <Navigate to="/login" />

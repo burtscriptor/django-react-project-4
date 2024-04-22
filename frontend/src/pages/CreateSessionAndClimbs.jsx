@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import api from "../api";
 import Climb from '../components/Climb'
 import "../styles/Home.css"
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Container from 'react-bootstrap/Row';
 
 function CreateSessionAndClimbs() {
     const [sessionId, setSessionId ] =useState(null)
@@ -99,14 +102,20 @@ function CreateSessionAndClimbs() {
 
 
     return (
-        <div>
-            
+        <>       
+         <Container fluid="md">
+            <Row>
+                <Col className ="text-center">
             <h2>Start Session</h2>
             <p>Select 'Session type' and add comments for example "Want to tick project today!"</p>
+            </Col>
+            </Row>
+            </Container>
+            <div>
             <form id='session' onSubmit={createSession}> 
             <select
                     id="type"
-                    name="type"
+                    name="switch"
                     value={session.type}
                     onChange={handleChangeSession} 
                     >
@@ -224,6 +233,8 @@ function CreateSessionAndClimbs() {
             </form>
             
         </div>
+        </>
+
     );
 }
 

@@ -1,34 +1,27 @@
-import Nav from 'react-bootstrap/Nav'
-import Navbar from 'react-bootstrap/Navbar'
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import React, { useState, useEffect } from 'react'
 
 const Navigation = () => {
-    const [isAuth, setIsAuth] = useState(false)
     
-    // useEffect(() => {
-    //     console.log(isAuth)
-    //     if(localStorage.getItem('access_token') !== null ) {
-    //         setIsAuth(true)
-    //     }
-    // }, [isAuth])
-
+    
+  
     return (
         <div>
-            <Navbar bg='dark' variant='dark'>
-            <Nav className='me-auto'>
-                   <Nav.Link href='/dashboard'>Dashboard</Nav.Link> 
-                </Nav>
-                <Nav className='me-auto'>
-                   <Nav.Link href='/'>Start Session</Nav.Link> 
-                </Nav>
-                <Nav className='me-auto'>
-                    <Nav.Link href='/inspiration'>Inspiration</Nav.Link>
-                </Nav>
-                <Nav>
-                   <Nav.Link href='/logout'>Logout</Nav.Link>  
-                </Nav>
+            <Navbar expand='lg' bg='primary' data-bs-theme='dark' className='bg-body-tertiary'>
+              <Container>
+                <Navbar.Brand href="#home">Record Climber</Navbar.Brand>
+                    <Nav className="me-auto">
+                        <Nav.Link href='/dashboard'>Dashboard</Nav.Link> 
+                        <Nav.Link href='/'>Start Session</Nav.Link> 
+                        <Nav.Link href='/inspiration'>Inspiration</Nav.Link>
+                        <Nav.Link href='/logout'>Logout</Nav.Link>  
+                    </Nav>
+
                 
-               
+                </Container>
             </Navbar>
         </div>
     );

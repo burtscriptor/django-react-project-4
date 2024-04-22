@@ -75,7 +75,7 @@ useEffect(() => {
        setClimbsPerSession(sessionDataArray)
        setGradeData(gradeDataArray);
        setHighestGrade(grade)
-      
+      console.log('UN', userName)
         
     }); 
 }, []);

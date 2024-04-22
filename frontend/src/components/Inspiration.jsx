@@ -1,6 +1,9 @@
 import axios from 'axios'
 import React from 'react'
 import { useState, useEffect } from 'react'
+import { Container, Row, Col } from 'react-bootstrap';
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 const Inspiration = () => {
 const [APOD, setAPOD] = useState(null)
@@ -28,23 +31,41 @@ useEffect(() => {
 
     return(
         <>    
-        {APOD && APOD.url ? <div>
-        
-        <p>Today i the {APOD.date}</p>
-        <p>And this is '{APOD.title}' taken by {APOD.copyright}.</p>
-        <p>Story:</p>
-        <p>{APOD.explanation}</p>
-        <img src={APOD.url}/> 
-        </div>
+        {APOD && APOD.url ? 
+        <div className='justify-content-center align-items-center'>
+        <Container fluid>
+            <Row>
+                <Col>
+            <Card style={{ width: '70rem' }}>
+         <Card.Img variant="top" src={APOD.url} fluid />
+        <Card.Body>
+        <Card.Title>This is '{APOD.title}' taken by {APOD.copyright}</Card.Title>
+        <Card.Text>
+       {APOD.explanation}
+       </Card.Text>
+      </Card.Body>
+      </Card>
+      </Col>
+      </Row>
+      </Container>
+      </div>
         : <p>Loading...</p>}
 
         {PInSpace && PInSpace.people ? (
-            <div>
-                <p>Current Number of people in space: {PInSpace.number}</p>
+            <Container fluid>
+                <Card>
+                <Row>
+                    <Col className="text-center">
+                <Card.Title >Number of people in space: {PInSpace.number}</Card.Title>
+                
                 {Array.isArray(PInSpace.people) && PInSpace.people.map((person, index) => (
-                    <p key={index}>{person.name} on the {person.craft}</p>
+                   <Card.Text key={index}>{person.name} on the {person.craft}</Card.Text>
                 ))}
-            </div>
+                </Col>
+                </Row>
+                </Card>
+            </Container>
+           
         ) : <p>Loading...</p> }
         
         </>

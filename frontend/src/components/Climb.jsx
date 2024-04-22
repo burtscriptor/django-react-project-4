@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/Note.css"
 
-const Note = ({ climb, onDelete }) => {
+const Climb = ({ climb, onDelete }) => {
     // const formattedDate = new Date(climb.created_at).toLocaleDateString("en-US")
 
     return (
@@ -16,4 +16,4 @@ const Note = ({ climb, onDelete }) => {
     );
 }
 
-export default Note;
+export default Climb;
