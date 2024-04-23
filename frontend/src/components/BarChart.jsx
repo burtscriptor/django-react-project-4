@@ -1,3 +1,6 @@
+// Todo
+// finish styling and understanding how to use he toolkit
+
 'use client';
 
 import {
@@ -16,10 +19,10 @@ import {
 const BarChartComponent = ({ gradeData }) => {
   return (
     <>
-    <h4>Number of climbs per grade</h4>
+    <p>Climbs per grade</p>
       <BarChart
-        width={500}
-        height={300}
+        width={300}
+        height={200}
         data={gradeData}
         margin={{
           right: 30,
@@ -30,7 +33,7 @@ const BarChartComponent = ({ gradeData }) => {
         <YAxis dataKey="count"/>
         <Tooltip content={<CustomTooltip />} />
         <Legend />
-        <Bar dataKey="grade" fill="#2563eb" />
+        <Bar dataKey="grade" fill="pink" />
         
       </BarChart>
       </>

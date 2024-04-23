@@ -1,13 +1,22 @@
+// This component is used by App.jsx, all of the routes/components in the frontend are wrapped in this component thus
+// making them children of this component, hence the prop 'children'
+// Its role is to gate keep and enure that who ever is logged in has a validated and unexpired JWT token before being allowed
+// navigate to another part of the web application
+// It pivots on a function 'Auth' which checks the local storage for a valid and unexpired JWT token, which is called when the
+// component 'mounts'
+// if a valid one is found then the state isAuthorized is set to true, otherise it is set to false and the loggin page
+// is rendered. Additionally if a token is found then it checks its expiration and if it is expired 
+// then it sends a request to the server for a new token and when it is returned it puts it in local storage
+
 import { Navigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import api from "../api";
 import { REFRESH_TOKEN, ACCESS_TOKEN } from "../constants";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 
 function ProtectedRoute({ isAuthorized, setIsAuthorized, children }) {
-    // const [isAuthorized, setIsAuthorized] = useState(null);
-
+   
     useEffect(() => {
         auth().catch(() => setIsAuthorized(false))
     }, [])

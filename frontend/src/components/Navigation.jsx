@@ -1,3 +1,7 @@
+// Todo
+// responsive design needs to be improved
+// Drop down menu?
+
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -6,8 +10,6 @@ import React, { useState, useEffect } from 'react'
 
 const Navigation = () => {
     
-    
-  
     return (
         <div>
             <Navbar expand='lg' bg='primary' data-bs-theme='dark' className='bg-body-tertiary'>
@@ -19,8 +21,6 @@ const Navigation = () => {
                         <Nav.Link href='/inspiration'>Inspiration</Nav.Link>
                         <Nav.Link href='/logout'>Logout</Nav.Link>  
                     </Nav>
-
-                
                 </Container>
             </Navbar>
         </div>

@@ -1,16 +1,25 @@
+// This component makes 'get' requests to two NASA Api's using axios
+// it then stores the response data in the state so that it can be rendered
+// while it is awaiting the response it renders a loading icon
+
+//Todo
+// Loading icon in center
+// image card in center, resise image
+// Remove API key for deployment
+
 import axios from 'axios'
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Container, Row, Col } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
+import LoadingIndicator from './LoadingIndicator';
 
 const Inspiration = () => {
 const [APOD, setAPOD] = useState(null)
 const [PInSpace, setPInSpace] = useState(null)
 
 useEffect(() => {
-    console.log('effect called')
    const NASA_CALL = async () => {
            const res = await axios
             .get(
@@ -66,7 +75,7 @@ useEffect(() => {
                 </Card>
             </Container>
            
-        ) : <p>Loading...</p> }
+        ) : <LoadingIndicator /> }
         
         </>
     )

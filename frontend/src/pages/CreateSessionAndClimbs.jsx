@@ -1,13 +1,24 @@
+// This component creates sessions and climbs and persists that information by 'posting' to the database
+// Session is the parent and climb is the Children.
+// Creates a session, and attaches the sessionID to each climb so each climb knows its parent
+// Currently a mixture of bootstrap elements and standard HTML elements
+
+// Todo Refactor and finish styling
+// Remove prompts and replace with small form?
+// Have a finish session button
+// Render how many climbs have been made in the session
+
 import { useState, useEffect } from "react";
 import api from "../api";
-import Climb from '../components/Climb'
 import "../styles/Home.css"
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Row';
+import Form from 'react-bootstrap/Form'
+import Card from 'react-bootstrap/Card'
 
 function CreateSessionAndClimbs() {
-    const [sessionId, setSessionId ] =useState(null)
+    const [sessionId, setSessionId ] = useState(null)
     const [sessions, setSessions] = useState([])
     const [session, setSession] = useState({
         sessionId: "",
@@ -26,7 +37,7 @@ function CreateSessionAndClimbs() {
         lead: false,
     });
 
-    const SESSION_TYPE = [ // may need to change back to array
+    const SESSION_TYPE = [ 
         ['Project','Project'],
         ['Endurance','Endurance'],
         ['Skills','Skills'],
@@ -34,7 +45,7 @@ function CreateSessionAndClimbs() {
         ['Fun','Fun']
     ]
 
-    const STYLE = [ // may need to change back to array
+    const STYLE = [ 
         ['Vertical', 'Vertical'],
         ['Overhang','Overhang'],
         ['Roof','Roof'],
@@ -54,13 +65,11 @@ function CreateSessionAndClimbs() {
                 data.reverse()
                 setSessions(data)
                 setSessionId(data[0].id)
-                console.log('sessonS', data)
             });
     };
 
     
     const createSession = (event) => {
-       console.log('from Cs', session)
         event.preventDefault()
         api
             .post('/api/session/', { ...session }) 
@@ -68,18 +77,16 @@ function CreateSessionAndClimbs() {
                 if (res.status === 201) alert('Session created!');
                 else alert('Failed to make session.');
                 getSessions();
-            });
-           
+            });    
     };
+   
     const handleChangeSession = (event) => {
         const { name, value, type, checked } = event.target;
-        setSession({...session, [name]: value});
-        
-    }
-    /////////////////////////////////////////////////////////////////////////////////
+        setSession({...session, [name]: value});  
+    };
+
+///////////////////////////////////////////////////////////////////////////////////
     
-
-
     const handleChange =(event) => {
         const { name, value, type, checked } = event.target;
         const val = type === 'checkbox' ? event.target.checked : event.target.value;
@@ -98,21 +105,22 @@ function CreateSessionAndClimbs() {
             .catch((err) => alert(err));
     };
 
-
-
-
-    return (
+//////////////////////////////////////////////////////////////////////////////////
+  
+return (
         <>       
          <Container fluid="md">
             <Row>
-                <Col className ="text-center">
-            <h2>Start Session</h2>
-            <p>Select 'Session type' and add comments for example "Want to tick project today!"</p>
+            <Col className ="text-center">
+            <Card>
+            <Card.Title>Start Session</Card.Title>
+            <Card.Text>Select 'Session type' and add comments for example "Want to tick project today!"</Card.Text>
+            </Card>
             </Col>
             </Row>
             </Container>
-            <div>
-            <form id='session' onSubmit={createSession}> 
+            
+            <Form id='session' onSubmit={createSession}>
             <select
                     id="type"
                     name="switch"
@@ -124,7 +132,7 @@ function CreateSessionAndClimbs() {
                     <option key={code} value={code}>
                         {label}
                     </option>
-                ))} 
+                ))}; 
             </select>
             <br/>
             <br/>
@@ -138,18 +146,12 @@ function CreateSessionAndClimbs() {
                     onChange={handleChangeSession}
                     value={session.comments}
                 />
-                <p>Submit Session and start recording and submitting your climbs as you go!</p>
+                <p>'Submit Session' and start recording and submitting your climbs as you go!</p>
                 <input type='submit' value='Submit Session'/>
-                
-            </form>
-            
-
+            </Form>
             <form id='climb' onSubmit={createClimb}>
                 <h3>Climb</h3>
                 <label htmlFor="session"></label>
-                {/* <select onChange={(e) => setSessionId(e.target.value)}>
-                    {sessions.map((session) => <option value={session.id} >{session.created_at}</option>)}
-                </select> */}
                 <label htmlFor="grade">Grade:</label>
                 <br />
                 <input
@@ -157,7 +159,7 @@ function CreateSessionAndClimbs() {
                     id="grade"
                     name="grade"
                     required
-                    onChange={handleChange}// handleChange
+                    onChange={handleChange}
                     value={climb.grade}
                 />
                 <label htmlFor="goal">Project send attempt?:</label>
@@ -166,7 +168,7 @@ function CreateSessionAndClimbs() {
                     type="checkbox"
                     id="goal"
                     name="goal"
-                    onChange={handleChange}// setClimb(e.target.value) to handleChange 
+                    onChange={handleChange}
                     value={climb.goal}
                 />
                  <label htmlFor="lead">Lead?</label>
@@ -175,7 +177,7 @@ function CreateSessionAndClimbs() {
                     type="checkbox"
                     id="lead"
                     name="lead"
-                    onChange={handleChange}// setClimb(e.target.value) to handleChange 
+                    onChange={handleChange}
                     value={climb.lead}
                 />
                 <label htmlFor="sent">Sent?</label>
@@ -185,7 +187,7 @@ function CreateSessionAndClimbs() {
                     id="sent"
                     name="sent"
                     value={climb.sent}
-                    onChange={handleChange}// handlechange
+                    onChange={handleChange}
                 />
                 <label htmlFor="style">Style:</label>
                 <br />
@@ -202,7 +204,7 @@ function CreateSessionAndClimbs() {
                     <option key={code} value={code}>
                         {label}
                     </option>
-                ))}
+                ))};
             </select>
                 <br />
                 <br />
@@ -213,7 +215,7 @@ function CreateSessionAndClimbs() {
                     id="rests"
                     name="rests"
                     required
-                    onChange={handleChange}// handleChange
+                    onChange={handleChange}
                     value={climb.rests}
                 />  
             <br/>
@@ -225,17 +227,14 @@ function CreateSessionAndClimbs() {
                     id="comments"
                     name="comments"
                     required
-                    onChange={handleChange}// handleChange
+                    onChange={handleChange}
                     value={climb.comments}
                 />
                 <br />
                 <input type="submit" value="Submit"/>
             </form>
-            
-        </div>
         </>
-
     );
-}
+};
 
 export default CreateSessionAndClimbs;

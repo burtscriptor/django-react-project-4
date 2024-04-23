@@ -1,9 +1,24 @@
+// After creating a session and logging some climbs (assoicated with that session)
+// those climbs can be viewed and form the 'Session Details' 
+// This component relies on useParams hook to access and destructure a number from the current URL
+// The number in the URL is the sessionID  "<Link to={`/${session.id}`} key={session.id}>"" from the sessions model instance, and i want access to this number
+// so that i can make a request to the server to get all the climbs that are assoicated with that particulare sessionID
+// once that request is forefilled the data is stored in state. This component uses a number of array methods to extract key 
+// information such as the number of climbs in the session, the style of the climbs, the hardest grade climbed.
+
+
+// Todo
+// move data extract to the backend
+// add graphs? 
+// finish styling
+
+
 import api from "../api";
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { Container, Row, Col, Card } from 'react-bootstrap'
 import { Accordion } from 'react-bootstrap';
-import RadiarBarChartComponenet from "./RadialBarChart";
+
 
 const SessionDetails = () => {
     const [climbs, setClimbs] = useState([])
@@ -13,7 +28,7 @@ const SessionDetails = () => {
     const [favouriteStyle, setFavouriteStyle] = useState([])
     const [lead, setLead] = useState([])
     const { id } = useParams();
-    console.log(id)
+   
 
     useEffect(() => {
         const getClimbs = async () => {
@@ -38,7 +53,6 @@ const SessionDetails = () => {
                     setSent(sent);
                     setProjects(project);
                     setGrade(grades);
-                    console.log('FSA',favouriteStyleArray)
                     setFavouriteStyle(favouriteStyleArray);
                     setLead(lead);
                 });
@@ -48,13 +62,14 @@ const SessionDetails = () => {
 
     return (
         <>
-            <Container fluid>
-                <Row>
-                    <Col>
-                        <Card>
+            <Container fluid className="mt-5">
+                <Row className="justify-content-center">
+                    <Col  xs={12} md={6} lg={4}>
+                        <Card className="justify-content-center">
                             <Card.Body>
-                                <Card.Text className="text-center">
-                                    {climbs.length} climbs || {projects.length} project attempts || {sent.length} climbs sent || {grade[0]} Top grade || Dominate style {Object.keys(favouriteStyle)[0]} || {lead.length} lead climbs
+                                <Card.Title className="text-center">Overview</Card.Title>
+                                <Card.Text className="mb-2 text-muted text-center">
+                                    {climbs.length} climbs || {projects.length} project attempts || {sent.length} climbs sent || {grade[0]} Top grade || dominate style {Object.keys(favouriteStyle)[0]} || {lead.length} lead climbs
                                 </Card.Text>
                             </Card.Body>
                         </Card>

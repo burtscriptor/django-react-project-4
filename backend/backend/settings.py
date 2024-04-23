@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv
-import os
+import os # Need for deployment, used for interactivig with the Operating Sytem.
 
 load_dotenv()
 
@@ -42,9 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api',
-    'rest_framework',
-    'corsheaders',  # Cors is a problem when trying to hit a different backend
+    'api', # App name
+    'rest_framework', # Django REST framework for building Web APIs. Requests from the client are stateless.
+    'corsheaders',  # django-cors-headers for handling Cross-Origin Resource Sharing (CORS) issues. Allows Django to function as a backend and accept requests for information.
 ]
 
 MIDDLEWARE = [
@@ -55,19 +55,19 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware', #added this middleware 
+    'corsheaders.middleware.CorsMiddleware', # Allows course origin requests to the backend.
 
 ]
 
 ROOT_URLCONF = 'backend.urls'
 
-REST_FRAMEWORK = { # For Authenication, as per Authenication article
+REST_FRAMEWORK = { # For Authenication
      'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
       ],
 }
 
-SIMPLE_JWT = { # For Authenication, as per Authenication article
+SIMPLE_JWT = { # For Authenication
      'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
      'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
      'ROTATE_REFRESH_TOKENS': True,
@@ -98,8 +98,8 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'climbing',
+        'ENGINE': 'django.db.backends.postgresql', # Favour of Database
+        'NAME': 'climbing', 
     }
 }
 
@@ -147,4 +147,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ORIGIN_ALLOW_ALL = True # For Authenication? As per Authenication article + video
 
-CORS_ALLOW_CREDENTIALS = True # Suggested by Chat GTP due to error and now it works + video
+CORS_ALLOW_CREDENTIALS = True # Suggested by Stackover flow due to error and now it works

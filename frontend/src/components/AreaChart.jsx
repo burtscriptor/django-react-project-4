@@ -15,11 +15,11 @@ import {
 const AreaChartComponent = ({ climbsPerSession }) => {
   return (
     <>
-    <h4>Number of climbs per session</h4>
+    <p>Climbs per session</p>
     
       <AreaChart
-        width={500}
-        height={400}
+        width={300}
+        height={200}
         data={climbsPerSession}
         margin={{ right: 50 }}
       >
@@ -34,7 +34,7 @@ const AreaChartComponent = ({ climbsPerSession }) => {
           type="monotone"
           dataKey="count"
           stroke="#2563eb"
-          fill="#3b82f6"
+          fill="purple"
           stackId="1"
         />
 

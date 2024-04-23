@@ -1,8 +1,15 @@
+// Todo 
+// finish styling 
+// refactor code
+
 import React from 'react'
 import { useState, useEffect } from 'react'
 import SessionsIndex from './SessionsIndex'
 import api from '../api';
 import Graph from './Graph';
+import { Container, Row, Col, Card } from 'react-bootstrap';
+import "../styles/DashBoard.css"
+
 
 
 const Dashboard = ({ userName }) => {
@@ -109,18 +116,40 @@ useEffect(() => {
 
  
     return (
-        <div><h1>{userName}'s Dashboard</h1>
-        <h2>Overall statistics:</h2>
-            <h4>Total Number of climbs: {climbsArray.length}</h4>
-            <h4>Total number of sessions: {sessions.length}</h4>
-            <h4>Average number of climbs per session:{climbsArray.length / sessions.length} </h4>
-            <h4>Number of projects sent: {climbsSent} </h4>
-            <h4>Highest grade climbed: { Math.max(...highestGrade)}</h4>
-
+        <>     
+        <Container>
+            <Row>
+                <Col>
+                   
+                        <Card.Title id='overview' className="text-center">Dashboard</Card.Title>
+             <hr ></hr>
+                </Col>
+            </Row>
+            </Container>  
+         <Container fluid className="mt-5">
+            <Row className="justify-content-center"> 
+            <Col className='text-center'> 
+          
+            <h5>Total climbs: {climbsArray.length}</h5>
+            <h5>Total sessions: {sessions.length}</h5>
+           
+                </Col>
+            <Col className='text-center'> 
+            <h5>Highest grade: { Math.max(...highestGrade)}</h5>
+            </Col>
+            <Col className='text-center'> 
+            
+            <h5>Projects sent: {climbsSent} </h5><h5>Average per session:{climbsArray.length / sessions.length} </h5>
+            
+            </Col>
+            
+        </Row>
+        </Container>
+        <hr></hr>
+        <Graph climbsPerSession={climbsPerSession} gradeData={gradeData} climbsArray={climbsArray} sessionsByType={sessionsByType} climbsByStyle={climbsByStyle} />
             <SessionsIndex sessions={sessions}  />
-            <Graph climbsPerSession={climbsPerSession} gradeData={gradeData} climbsArray={climbsArray} sessionsByType={sessionsByType} climbsByStyle={climbsByStyle} />
-
-        </div>
+           
+            </>       
     );
 
 };

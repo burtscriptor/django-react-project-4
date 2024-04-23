@@ -1,11 +1,22 @@
+// This is the gate way to the application and presents the user with a form for login in or creating a login
+// This component is utilised by two pages - login, register - they both pass two props to the component 'method' and 'route'
+// but the value each is different depending on which page is calling the component
+// 'method' is evalated in a ternary expression 
+// the value of method determines where the user is routed to
+// useState stores the username and password and then this information is 'posted' to the server to side
+// if the method is set to 'login' the username and password are compared to the User model, if the 'Username' is found
+// then JWT tokens are generated on the server side and returned to the client in the response for to be stored in local storage
+// anytime the user makes a 'post' or 'get' request to the server the the tokens are set with the request and evaluated for authenication with that 
+// request
+// if the 'method' is register then URL pattern for the 'post' request is different to login, and this is passed as a paramter to the api module 
+
 import { useState } from "react";
-import api from "../api";
+import api from "../api";   // this module allows communicatipn between browser and server
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
 import "../styles/Form.css"
 import LoadingIndicator from "./LoadingIndicator";
 import { Link } from 'react-router-dom';
-
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
@@ -26,7 +37,7 @@ function FormComponent({ route, method, setUserName }) {
         try {
             const res = await api.post(route, { username, password })
             if (method === "login") {
-                localStorage.setItem(ACCESS_TOKEN, res.data.access);
+                localStorage.setItem(ACCESS_TOKEN, res.data.access); 
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
                 navigate("/dashboard")
             } else {

@@ -1,4 +1,4 @@
-/* Container for the whole page */
+/* Container for the whole page
 div {
     font-family: Arial, sans-serif;
   }
@@ -65,4 +65,4 @@ div {
   
   form input[type="submit"]:hover {
     background-color: #0056b3;
-  }
+  } */
